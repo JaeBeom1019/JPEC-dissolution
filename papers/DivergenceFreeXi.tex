@@ -1,0 +1,1078 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+
+\geometry{margin=2.5cm}
+
+\title{\textbf{Reconstruction of $\xi^\theta$, $\xi^\zeta$, $\nabla\cdot\bxi$ and $\bxi_\perp$} \\ 
+\large from $\Xi_\psi$ and Matrices $A, B, C$ in DCON/GPEC}
+\author{}
+\date{}
+
+\newcommand{\bnabla}{\boldsymbol{\nabla}}
+\newcommand{\bxi}{\boldsymbol{\xi}}
+\newcommand{\bQ}{\boldsymbol{Q}}
+
+\begin{document}
+\maketitle
+
+\section*{Setup and Notation}
+
+We work in the DCON flux coordinate system $(\psi, \theta, \zeta)$ where:
+\begin{itemize}
+    \item $\psi \in [0,1]$: normalized poloidal flux
+    \item $\theta \in [0,1]$, $\zeta \in [0,1]$: normalized SFL angles
+    \item $J = J(\psi, \theta)$: Jacobian, \textbf{independent of $\zeta$}
+    \item $\chi' = 2\pi \times (\texttt{ssibry} - \texttt{ssimag})$: poloidal flux scale
+\end{itemize}
+
+The displacement vector in contravariant components:
+\begin{equation}
+    \bxi = J\!\left(\xi^\psi \,\bnabla\theta\times\bnabla\zeta 
+    + \xi^\theta \,\bnabla\zeta\times\bnabla\psi 
+    + \xi^\zeta \,\bnabla\psi\times\bnabla\theta\right)
+\end{equation}
+
+The surface displacement is defined as:
+\begin{equation}
+    \xi^s \equiv J\!\left(\bxi \times \mathbf{B}\right)\cdot\left(\bnabla\theta\times\bnabla\zeta\right) = \chi'(q\xi^\theta - \xi^\zeta)
+    \label{eq:xis_def}
+\end{equation}
+
+Fourier decomposition (single toroidal mode $n$):
+\begin{equation}
+    \xi^s(\psi,\theta,\zeta) = \sum_m u_{m,n}(\psi)\,e^{i(m\theta - n\zeta)}, 
+    \qquad
+    \xi^\psi(\psi,\theta,\zeta) = \sum_m v_{m,n}(\psi)\,e^{i(m\theta - n\zeta)}
+\end{equation}
+
+We collect Fourier coefficients into column vectors:
+\begin{equation}
+    \Xi_s(\psi) = \{u_{m,n}(\psi)\}, \qquad \Xi_\psi(\psi) = \{v_{m,n}(\psi)\}
+\end{equation}
+
+\section{Step 1: Obtain $\Xi_s$ from Eq.~(49)}
+
+From the DCON variational condition (stationarity of $\delta W$ with respect to $\Xi_s$):
+\begin{equation}
+    A\,\Xi_s + B\,\Xi'_\psi + C\,\Xi_\psi = 0
+\end{equation}
+
+Solving for $\Xi_s$:
+\begin{equation}
+    \boxed{\Xi_s = -A^{-1}\!\left(B\,\Xi'_\psi + C\,\Xi_\psi\right)}
+    \label{eq:Xis}
+\end{equation}
+
+where the matrices are defined as (DCON metric representation):
+\begin{align}
+    A &= (2\pi)^2\bigl[n(nG_{22} + G_{23}M) + M(nG_{23}+G_{33}M)\bigr] \\
+    B &= -2\pi i\chi'\bigl[n(G_{22}+qG_{23})+M(G_{23}+qG_{33})\bigr] \\
+    C &= -2\pi i\bigl[\chi''(nG_{22}+MG_{23})+(q\chi')'(nG_{23}+MG_{33})\bigr] \notag\\
+      &\quad -(2\pi)^2\chi'(nG_{12}+MG_{31})Q + 2\pi i(2\pi f'Q - nP'/\chi'J)
+\end{align}
+
+\noindent Note: $M_{m,m'} = m\,\delta_{m,m'}$, $Q_{m,m'} = (m-nq)\delta_{m,m'}$, 
+and $(G_{ij})_{m,m'} = \langle g_{ij}/J\rangle_{m-m'}$ are Toeplitz matrices from the 
+$\theta$-Fourier transform of the metric tensors.
+
+\section{Step 2: Obtain $\xi^\theta$ from $\nabla\cdot\bxi = 0$}
+
+\subsection{The incompressibility condition}
+
+In flux coordinates, the divergence is:
+\begin{equation}
+    \nabla\cdot\bxi = \frac{1}{J}\left[
+    \frac{\partial}{\partial\psi}(J\xi^\psi) 
+    + \frac{\partial}{\partial\theta}(J\xi^\theta)
+    + \frac{\partial}{\partial\zeta}(J\xi^\zeta)
+    \right] = 0
+\end{equation}
+
+Multiplying through by $J$:
+\begin{equation}
+    \frac{\partial(J\xi^\psi)}{\partial\psi} 
+    + \frac{\partial(J\xi^\theta)}{\partial\theta}
+    + \frac{\partial(J\xi^\zeta)}{\partial\zeta} = 0
+    \label{eq:divxi}
+\end{equation}
+
+\subsection{Exploit $J = J(\psi,\theta)$ (independent of $\zeta$)}
+
+Since $J$ does not depend on $\zeta$, the last term in \eqref{eq:divxi} factorizes:
+\begin{equation}
+    \frac{\partial(J\xi^\zeta)}{\partial\zeta} = J\frac{\partial\xi^\zeta}{\partial\zeta}
+\end{equation}
+
+For a single toroidal mode $e^{-in\zeta}$, the $\zeta$-derivative acts as multiplication:
+\begin{equation}
+    \frac{\partial}{\partial\zeta}\longrightarrow -in
+\end{equation}
+
+Therefore \eqref{eq:divxi} becomes:
+\begin{equation}
+    \frac{\partial(J\xi^\psi)}{\partial\psi} 
+    + \frac{\partial(J\xi^\theta)}{\partial\theta}
+    - in\,J\xi^\zeta = 0
+    \label{eq:divxi2}
+\end{equation}
+
+\subsection{Eliminate $\xi^\zeta$ using the definition of $\xi^s$}
+
+From the definition of the surface displacement \eqref{eq:xis_def}:
+\begin{equation}
+    \xi^s = \chi'(q\xi^\theta - \xi^\zeta)
+    \qquad\Longrightarrow\qquad
+    \xi^\zeta = q\xi^\theta - \frac{\xi^s}{\chi'}
+    \label{eq:xizeta_elim}
+\end{equation}
+
+Insert \eqref{eq:xizeta_elim} into \eqref{eq:divxi2}:
+\begin{equation}
+    \frac{\partial(J\xi^\psi)}{\partial\psi} 
+    + \frac{\partial(J\xi^\theta)}{\partial\theta}
+    - in\,J\!\left(q\xi^\theta - \frac{\xi^s}{\chi'}\right) = 0
+\end{equation}
+
+Expanding:
+\begin{equation}
+    \frac{\partial(J\xi^\psi)}{\partial\psi} 
+    + \frac{\partial(J\xi^\theta)}{\partial\theta}
+    - inq\,J\xi^\theta
+    + \frac{in}{\chi'}J\xi^s = 0
+\end{equation}
+
+Rearranging, we obtain a \textbf{first-order ODE in $\theta$} for $J\xi^\theta$:
+\begin{equation}
+    \frac{\partial(J\xi^\theta)}{\partial\theta} - inq\,J\xi^\theta 
+    = \underbrace{-\frac{\partial(J\xi^\psi)}{\partial\psi} - \frac{in}{\chi'}J\xi^s}_{\displaystyle\equiv\, S(\psi,\theta)}
+    \label{eq:ODE}
+\end{equation}
+
+\subsection{Solving the ODE directly in real space}
+
+The key observation is that $J(\psi,\theta)$ is already known as a real-space function on the $(\psi,\theta)$ grid (computed by DCON's \texttt{equil} module via bicubic splines). There is \textbf{no need to Fourier-expand $J$}. Instead, we solve \eqref{eq:ODE} directly as a first-order linear ODE in $\theta$ at each fixed $\psi$.
+
+The ODE \eqref{eq:ODE} has the standard form:
+\begin{equation}
+    \frac{d f}{d\theta} - inq\, f = S(\psi,\theta), \qquad f \equiv J(\psi,\theta)\,\xi^\theta(\psi,\theta)
+    \label{eq:ODE_f}
+\end{equation}
+
+The integrating factor is $e^{-inq\theta}$ (note $q = q(\psi)$ is constant in $\theta$):
+\begin{equation}
+    \frac{d}{d\theta}\!\left(e^{-inq\theta} f\right) = e^{-inq\theta}\,S(\psi,\theta)
+\end{equation}
+
+Integrating from $0$ to $\theta$:
+\begin{equation}
+    e^{-inq\theta} f(\theta) - f(0) = \int_0^\theta e^{-inq\theta'} S(\psi,\theta')\,d\theta'
+\end{equation}
+
+so that:
+\begin{equation}
+    f(\theta) = e^{inq\theta}\left[f(0) + \int_0^\theta e^{-inq\theta'} S(\psi,\theta')\,d\theta'\right]
+    \label{eq:general_sol}
+\end{equation}
+
+The integration constant $f(0) = J(\psi,0)\,\xi^\theta(\psi,0)$ is determined by the \textbf{periodicity condition} $f(\theta{=}1) = f(\theta{=}0)$, i.e., $\xi^\theta$ is periodic in $\theta$ with period 1. Applying this to \eqref{eq:general_sol}:
+\begin{equation}
+    f(0) = e^{inq}\left[f(0) + \int_0^1 e^{-inq\theta'} S(\psi,\theta')\,d\theta'\right]
+\end{equation}
+
+Solving for $f(0)$:
+\begin{equation}
+    f(0)\,(1 - e^{inq}) = e^{inq}\int_0^1 e^{-inq\theta'} S(\psi,\theta')\,d\theta'
+\end{equation}
+
+\begin{equation}
+    \boxed{f(0) = \frac{e^{inq}}{1 - e^{inq}}\int_0^1 e^{-inq\theta'} S(\psi,\theta')\,d\theta'}
+    \label{eq:f0}
+\end{equation}
+
+Substituting \eqref{eq:f0} back into \eqref{eq:general_sol} gives the full solution. Define the source integral:
+\begin{equation}
+    I(\psi,\theta) \equiv \int_0^\theta e^{-inq\theta'} S(\psi,\theta')\,d\theta', \qquad I_1(\psi) \equiv I(\psi, 1) = \int_0^1 e^{-inq\theta'} S(\psi,\theta')\,d\theta'
+\end{equation}
+
+Then:
+\begin{equation}
+    \boxed{
+    J(\psi,\theta)\,\xi^\theta(\psi,\theta) = e^{inq\theta}\left[\frac{e^{inq}}{1-e^{inq}}\,I_1(\psi) + I(\psi,\theta)\right]
+    }
+    \label{eq:xitheta_real}
+\end{equation}
+
+where the source $S(\psi,\theta)$ is evaluated entirely in real space:
+\begin{equation}
+    S(\psi,\theta) = -\frac{\partial}{\partial\psi}\!\left[J(\psi,\theta)\,\xi^\psi(\psi,\theta)\right] - \frac{in}{\chi'}\,J(\psi,\theta)\,\xi^s(\psi,\theta)
+    \label{eq:source_real}
+\end{equation}
+
+Here $\xi^\psi(\psi,\theta)$ is the inverse Fourier transform of $\Xi_\psi$, and $\xi^s(\psi,\theta)$ is the inverse Fourier transform of $\Xi_s$ (obtained from Step~1). \textbf{No Fourier decomposition of $J$ is needed at any stage.}
+
+Finally:
+\begin{equation}
+    \boxed{\xi^\theta(\psi,\theta) = \frac{1}{J(\psi,\theta)}\,e^{inq\theta}\left[\frac{e^{inq}}{1-e^{inq}}\,I_1(\psi) + I(\psi,\theta)\right]}
+    \label{eq:xitheta_final}
+\end{equation}
+
+\section{Step 3: Obtain $\xi^\zeta$ from the Definition of $\xi^s$}
+
+Once $\xi^\theta(\psi,\theta)$ is known from Step~2, $\xi^\zeta$ follows immediately and directly from the definition of the surface displacement \eqref{eq:xis_def}:
+\begin{equation}
+    \xi^s = \chi'(q\xi^\theta - \xi^\zeta)
+\end{equation}
+
+Solving for $\xi^\zeta$:
+\begin{equation}
+    \boxed{
+    \xi^\zeta(\psi,\theta) = q(\psi)\,\xi^\theta(\psi,\theta) - \frac{\xi^s(\psi,\theta)}{\chi'}
+    }
+    \label{eq:xizeta_final}
+\end{equation}
+
+where $\xi^s(\psi,\theta)$ is the inverse Fourier transform of $\Xi_s$ (obtained in Step~1), and $\xi^\theta$ is obtained from \eqref{eq:xitheta_final}. No additional equation is needed; the definition of $\xi^s$ \emph{is} the equation for $\xi^\zeta$.
+
+\section{Full Reconstruction Summary}
+
+Given $\Xi_\psi(\psi)$ and its derivative $\Xi'_\psi(\psi)$, the full reconstruction proceeds as follows:
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!60!black, title=\textbf{Reconstruction of $\xi^\theta$ and $\xi^\zeta$}, breakable]
+
+\textbf{Step 1.} Compute $\Xi_s$ from DCON matrices $A$, $B$, $C$:
+\begin{equation}
+    \Xi_s(\psi) = -A^{-1}\!\left(B\,\Xi'_\psi + C\,\Xi_\psi\right)
+    \tag{49}
+\end{equation}
+Inverse Fourier transform to real space: $\xi^s(\psi,\theta) = \sum_m [\Xi_s]_m\,e^{im\theta}$. Similarly reconstruct $\xi^\psi(\psi,\theta) = \sum_m [\Xi_\psi]_m\,e^{im\theta}$.
+
+\medskip
+\textbf{Step 2.} Construct the source function in real space on the $(\psi,\theta)$ grid. $J(\psi,\theta)$ is used \emph{as-is} from the DCON \texttt{equil} module --- no Fourier decomposition of $J$ is needed:
+\begin{equation}
+    S(\psi,\theta) = -\frac{\partial}{\partial\psi}\!\left[J(\psi,\theta)\,\xi^\psi(\psi,\theta)\right] - \frac{in}{\chi'}\,J(\psi,\theta)\,\xi^s(\psi,\theta)
+\end{equation}
+
+\medskip
+\textbf{Step 3.} Solve the first-order ODE for $\xi^\theta$ by direct $\theta$-integration. Define:
+\begin{equation}
+    I(\psi,\theta) \equiv \int_0^\theta e^{-inq(\psi)\theta'}\,S(\psi,\theta')\,d\theta', \qquad I_1(\psi) \equiv I(\psi,1)
+\end{equation}
+The periodicity condition uniquely determines the solution:
+\begin{equation}
+    \xi^\theta(\psi,\theta) = \frac{e^{inq\theta}}{J(\psi,\theta)}\left[\frac{e^{inq}}{1-e^{inq}}\,I_1(\psi) + I(\psi,\theta)\right]
+\end{equation}
+
+\medskip
+\textbf{Step 4.} Compute $\xi^\zeta$ directly from the definition of $\xi^s$:
+\begin{equation}
+    \xi^\zeta(\psi,\theta) = q(\psi)\,\xi^\theta(\psi,\theta) - \frac{\xi^s(\psi,\theta)}{\chi'}
+\end{equation}
+
+\end{tcolorbox}
+
+\section{Step 4: Verification --- Compute $\nabla\cdot\bxi$ and Check It Vanishes}
+
+Having reconstructed all three contravariant components $\xi^\psi$, $\xi^\theta$, $\xi^\zeta$ in real space on the $(\psi,\theta)$ grid, we can directly evaluate $\nabla\cdot\bxi$ as an independent check.
+
+\subsection{Formula in flux coordinates}
+
+The divergence in flux coordinates $(\psi,\theta,\zeta)$ is exactly:
+\begin{equation}
+    \nabla\cdot\bxi = \frac{1}{J}\left[
+        \frac{\partial(J\xi^\psi)}{\partial\psi}
+        + \frac{\partial(J\xi^\theta)}{\partial\theta}
+        + \frac{\partial(J\xi^\zeta)}{\partial\zeta}
+    \right]
+    \label{eq:div_exact}
+\end{equation}
+
+Since $J = J(\psi,\theta)$ and all fields carry the toroidal dependence $e^{-in\zeta}$, the $\zeta$-derivative gives $-in$:
+\begin{equation}
+    \nabla\cdot\bxi = \frac{1}{J}\left[
+        \frac{\partial(J\xi^\psi)}{\partial\psi}
+        + \frac{\partial(J\xi^\theta)}{\partial\theta}
+        - in\,J\xi^\zeta
+    \right]
+    \label{eq:div_eval}
+\end{equation}
+
+\subsection{Evaluating each term}
+
+All three terms are evaluated in real space at each grid point $(\psi_i, \theta_j)$:
+
+\paragraph{Term 1: $\partial_\psi(J\xi^\psi)$.}
+$J(\psi,\theta)$ is known from \texttt{equil}, and $\xi^\psi$ is the inverse Fourier transform of $\Xi_\psi$. Form the product $P_1(\psi,\theta) \equiv J(\psi,\theta)\,\xi^\psi(\psi,\theta)$ and differentiate with respect to $\psi$ (numerically, using the spline derivative of $J$ and the $\psi$-derivative of $\Xi_\psi$):
+\begin{equation}
+    \frac{\partial(J\xi^\psi)}{\partial\psi} = \frac{\partial J}{\partial\psi}\,\xi^\psi + J\,\frac{\partial\xi^\psi}{\partial\psi}
+    = J'(\psi,\theta)\,\xi^\psi + J(\psi,\theta)\sum_m [\Xi_\psi']_m\,e^{im\theta}
+\end{equation}
+
+\paragraph{Term 2: $\partial_\theta(J\xi^\theta)$.}
+$J\xi^\theta$ is known in real space from the ODE solution \eqref{eq:xitheta_final}. Specifically:
+\begin{equation}
+    J(\psi,\theta)\,\xi^\theta(\psi,\theta) = e^{inq\theta}\!\left[\frac{e^{inq}}{1-e^{inq}}\,I_1(\psi) + I(\psi,\theta)\right]
+    \label{eq:Jxitheta}
+\end{equation}
+Differentiating \eqref{eq:Jxitheta} with respect to $\theta$ and using $\frac{d}{d\theta}I(\psi,\theta) = e^{-inq\theta}S(\psi,\theta)$:
+\begin{align}
+    \frac{\partial(J\xi^\theta)}{\partial\theta}
+    &= inq\,e^{inq\theta}\!\left[\frac{e^{inq}}{1-e^{inq}}\,I_1 + I(\psi,\theta)\right]
+    + e^{inq\theta}\cdot e^{-inq\theta}S(\psi,\theta) \notag\\
+    &= inq\,J(\psi,\theta)\,\xi^\theta + S(\psi,\theta)
+    \label{eq:dJxitheta}
+\end{align}
+
+\paragraph{Term 3: $-in\,J\xi^\zeta$.}
+Using $\xi^\zeta = q\xi^\theta - \xi^s/\chi'$:
+\begin{equation}
+    -in\,J\xi^\zeta = -in\,J\!\left(q\xi^\theta - \frac{\xi^s}{\chi'}\right)
+    = -inq\,J\xi^\theta + \frac{in}{\chi'}\,J\xi^s
+    \label{eq:term3}
+\end{equation}
+
+\subsection{Cancellation and the result}
+
+Summing all three terms in \eqref{eq:div_eval}:
+\begin{align}
+    J\,(\nabla\cdot\bxi) &= \frac{\partial(J\xi^\psi)}{\partial\psi}
+    + \underbrace{\left[inq\,J\xi^\theta + S\right]}_{\partial_\theta(J\xi^\theta)}
+    + \underbrace{\left[-inq\,J\xi^\theta + \frac{in}{\chi'}J\xi^s\right]}_{-in\,J\xi^\zeta}
+\end{align}
+
+The $inq\,J\xi^\theta$ terms cancel exactly:
+\begin{align}
+    J\,(\nabla\cdot\bxi) &= \frac{\partial(J\xi^\psi)}{\partial\psi}
+    + S(\psi,\theta) + \frac{in}{\chi'}\,J\xi^s
+\end{align}
+
+Substituting the definition of $S$ from \eqref{eq:source_real}:
+\begin{align}
+    J\,(\nabla\cdot\bxi) &= \frac{\partial(J\xi^\psi)}{\partial\psi}
+    + \left[-\frac{\partial(J\xi^\psi)}{\partial\psi} - \frac{in}{\chi'}\,J\xi^s\right]
+    + \frac{in}{\chi'}\,J\xi^s \\[6pt]
+    &= 0 \qquad \checkmark
+    \label{eq:div_zero}
+\end{align}
+
+\textbf{The cancellation is exact and analytical.} The divergence vanishes identically by construction, confirming the consistency of the reconstruction. In numerical practice, the residual $|\nabla\cdot\bxi|$ can be used as a convergence diagnostic:
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!60!black, title=\textbf{Numerical verification formula}]
+Evaluate at each grid point $(\psi_i, \theta_j)$:
+\begin{equation}
+    \text{Residual}(\psi,\theta) \equiv
+    \frac{1}{J}\left[
+    \frac{\partial(J\xi^\psi)}{\partial\psi}
+    + inq\,J\xi^\theta + S(\psi,\theta)
+    - inq\,J\xi^\theta + \frac{in}{\chi'}\,J\xi^s
+    \right]
+\end{equation}
+This should be $\approx 0$ to numerical precision (machine epsilon times the typical magnitude of the individual terms).
+\end{tcolorbox}
+
+%=======================================================
+\section{Step 5: Compute $\bxi_\perp$ --- the Component Perpendicular to $\mathbf{B}$}
+
+\subsection{Definition}
+
+The perpendicular displacement is the component of $\bxi$ lying in the plane perpendicular to $\mathbf{B}$:
+\begin{equation}
+    \bxi_\perp \equiv \bxi - \bxi_\parallel, \qquad \bxi_\parallel \equiv \frac{\bxi\cdot\mathbf{B}}{B^2}\,\mathbf{B}
+    \label{eq:xiperp_def}
+\end{equation}
+
+so explicitly:
+\begin{equation}
+    \boxed{\bxi_\perp = \bxi - \frac{\bxi\cdot\mathbf{B}}{B^2}\,\mathbf{B}}
+    \label{eq:xiperp}
+\end{equation}
+
+\subsection{Computing $\bxi\cdot\mathbf{B}$}
+
+In flux coordinates, the magnetic field is (from DCON Eqs.~(1)--(7)):
+\begin{equation}
+    \mathbf{B} = \chi'\!\left(\bnabla\theta\times\bnabla\zeta + q\,\bnabla\zeta\times\bnabla\psi\right)
+    \quad\Longrightarrow\quad
+    B^\theta = \frac{\chi'}{J},\quad B^\zeta = \frac{q\chi'}{J}
+    \label{eq:B_contravariant}
+\end{equation}
+
+The dot product $\bxi\cdot\mathbf{B}$ in contravariant components requires the \textbf{covariant} metric tensor $g_{ij} = (\partial\mathbf{x}/\partial u^i)\cdot(\partial\mathbf{x}/\partial u^j)$, which is the inverse of the contravariant metric $g^{ij} = \nabla u^i\cdot\nabla u^j$. Note carefully:
+\begin{equation}
+    g^{ij} = \nabla u^i\cdot\nabla u^j \quad\text{(contravariant, directly from DCON \texttt{equil})}
+    \qquad \neq \qquad
+    g_{ij} = \frac{\partial\mathbf{x}}{\partial u^i}\cdot\frac{\partial\mathbf{x}}{\partial u^j} \quad\text{(covariant, must be computed)}
+\end{equation}
+
+The covariant components are obtained from the cofactor formula \eqref{eq:gpp}--\eqref{eq:gtz} derived in the Magnitude subsection below. With this understood:
+\begin{equation}
+    \bxi\cdot\mathbf{B} = g_{ij}\,\xi^i\,B^j
+\end{equation}
+\begin{align}
+    \bxi\cdot\mathbf{B} &= g_{\psi\psi}\,\xi^\psi B^\psi + g_{\psi\theta}\,\xi^\psi B^\theta + g_{\psi\zeta}\,\xi^\psi B^\zeta \notag\\
+    &\quad + g_{\theta\psi}\,\xi^\theta B^\psi + g_{\theta\theta}\,\xi^\theta B^\theta + g_{\theta\zeta}\,\xi^\theta B^\zeta \notag\\
+    &\quad + g_{\zeta\psi}\,\xi^\zeta B^\psi + g_{\zeta\theta}\,\xi^\zeta B^\theta + g_{\zeta\zeta}\,\xi^\zeta B^\zeta
+\end{align}
+
+Since $B^\psi = 0$ and using \eqref{eq:B_contravariant}:
+\begin{align}
+    \bxi\cdot\mathbf{B} &= (g_{\psi\theta}\,\xi^\psi + g_{\theta\theta}\,\xi^\theta + g_{\zeta\theta}\,\xi^\zeta)\,B^\theta
+                         + (g_{\psi\zeta}\,\xi^\psi + g_{\theta\zeta}\,\xi^\theta + g_{\zeta\zeta}\,\xi^\zeta)\,B^\zeta \notag\\
+    &= \frac{\chi'}{J}\left[
+        (g_{\psi\theta} + q\,g_{\psi\zeta})\,\xi^\psi
+        + (g_{\theta\theta}+q\,g_{\theta\zeta})\,\xi^\theta
+        + (g_{\theta\zeta}+q\,g_{\zeta\zeta})\,\xi^\zeta
+    \right]
+    \label{eq:xidotB_full}
+\end{align}
+
+and $B^2 = g_{ij}B^iB^j$ (with $B^\psi=0$):
+\begin{equation}
+    B^2 = \left(\frac{\chi'}{J}\right)^2\!\left(g_{\theta\theta} + 2q\,g_{\theta\zeta} + q^2 g_{\zeta\zeta}\right)
+    \label{eq:B2}
+\end{equation}
+
+where all $g_{ij}$ here are covariant components given by \eqref{eq:gtt}, \eqref{eq:gtz}, \eqref{eq:gzz}.
+
+\subsection{Physical interpretation of $\bxi_\perp$}
+
+The physically meaningful displacement has two parts:
+\begin{itemize}
+    \item \textbf{Normal component} $\xi^\psi$: displacement across flux surfaces ($\xi^\psi_\perp = \xi^\psi$ exactly since $\hat{b}^\psi = 0$)
+    \item \textbf{Binormal part} ($\xi^\theta_\perp$, $\xi^\zeta_\perp$): displacement within the flux surface after removing the field-aligned part, related to the surface displacement $\xi^s$
+\end{itemize}
+
+Note: $\xi^s = \chi'(q\xi^\theta - \xi^\zeta)$ is the component of $\boldsymbol{\xi}$ along $\mathbf{B}\times\nabla\psi$ within the flux surface, and it already lies perpendicular to $\mathbf{B}$. However, a simple decomposition $\bxi_\perp = \xi^\psi\hat{n} + (\xi^s/|\cdots|)\hat{b}_\perp$ is only valid in orthogonal coordinates where $g_{\psi\theta} = g_{\psi\zeta} = 0$; in general flux coordinates this does not hold, so the contravariant component form \eqref{eq:xiperp_full} must be used.
+
+\subsection{Explicit formula for $\bxi_\perp$}
+
+The scalar parallel amplitude is defined as:
+\begin{equation}
+    \xi_\parallel \equiv \bxi\cdot\hat{b} = \frac{\bxi\cdot\mathbf{B}}{B}
+    \label{eq:xipar_def}
+\end{equation}
+
+Substituting \eqref{eq:xidotB_full} and $B = \sqrt{B^2}$ from \eqref{eq:B2}:
+\begin{equation}
+    \xi_\parallel = \frac{1}{B}\cdot\frac{\chi'}{J}\left[
+    \left(g_{\psi\theta} + q\,g_{\psi\zeta}\right)\xi^\psi
+    + \left(g_{\theta\theta}+q\,g_{\theta\zeta}\right)\xi^\theta
+    + \left(g_{\theta\zeta}+q\,g_{\zeta\zeta}\right)\xi^\zeta
+    \right]
+    \label{eq:xipar}
+\end{equation}
+
+The parallel displacement vector is then:
+\begin{equation}
+    \bxi_\parallel = \xi_\parallel\,\hat{b} = \frac{\xi_\parallel}{B}\,\mathbf{B}
+    \qquad\Longrightarrow\qquad
+    \hat{b}^\theta = \frac{B^\theta}{B} = \frac{\chi'}{BJ},\quad \hat{b}^\zeta = \frac{B^\zeta}{B} = \frac{q\chi'}{BJ}
+\end{equation}
+
+The contravariant components of $\bxi_\perp = \bxi - \xi_\parallel\hat{b}$ are therefore:
+\begin{align}
+    \xi^\psi_\perp &= \xi^\psi - \xi_\parallel\,\hat{b}^\psi = \xi^\psi \quad(\text{since }B^\psi=0,\;\hat{b}^\psi=0) \\[4pt]
+    \xi^\theta_\perp &= \xi^\theta - \xi_\parallel\,\hat{b}^\theta = \xi^\theta - \frac{\xi_\parallel\chi'}{BJ} \\[4pt]
+    \xi^\zeta_\perp &= \xi^\zeta - \xi_\parallel\,\hat{b}^\zeta = \xi^\zeta - \frac{q\xi_\parallel\chi'}{BJ}
+    \label{eq:xiperp_components}
+\end{align}
+
+And the full vector:
+\begin{equation}
+    \boxed{
+    \bxi_\perp = J\!\left(\xi^\psi\,\bnabla\theta\times\bnabla\zeta
+    + \left(\xi^\theta - \frac{\xi_\parallel\chi'}{BJ}\right)\bnabla\zeta\times\bnabla\psi
+    + \left(\xi^\zeta - \frac{q\xi_\parallel\chi'}{BJ}\right)\bnabla\psi\times\bnabla\theta\right)
+    }
+    \label{eq:xiperp_full}
+\end{equation}
+
+\subsection{Magnitude of $\bxi_\perp$}
+
+In practice what is often needed is the scalar magnitude $|\bxi_\perp|$. Using the metric tensor:
+\begin{align}
+    |\bxi_\perp|^2 &= g_{\psi\psi}(\xi^\psi)^2
+    + 2g_{\psi\theta}\,\xi^\psi\xi^\theta_\perp
+    + 2g_{\psi\zeta}\,\xi^\psi\xi^\zeta_\perp
+    + g_{\theta\theta}(\xi^\theta_\perp)^2
+    + 2g_{\theta\zeta}\,\xi^\theta_\perp\xi^\zeta_\perp
+    + g_{\zeta\zeta}(\xi^\zeta_\perp)^2
+    \label{eq:xiperp_mag}
+\end{align}
+
+In DCON coordinates, the contravariant metric components $g^{ij} = \nabla u^i \cdot \nabla u^j$ are built from the $w_{ij}$ arrays (contravariant basis vectors, Eq.~(17) in GPEC notes). Recall from Eq.~(20):
+\begin{equation}
+    \vec{w}_i = \nabla u^i, \qquad w_{ij} = \nabla u^i \cdot \hat{e}_j
+\end{equation}
+where $\hat{e}_j = (\hat{e}_1, \hat{e}_2, \hat{e}_3)$ are the orthonormal ordinary basis vectors in the $(r,\eta,\phi)$ direction with $\hat{e}_i\cdot\hat{e}_j = \delta_{ij}$. Since $w_{i3} = \nabla u^i \cdot \hat{e}_3 = 0$ for $i = \psi, \theta$ (Eq.~(20): $w_{13}=w_{23}=0$), the dot products reduce to sums over only two ordinary components.
+
+\medskip
+\noindent\textbf{All six contravariant metric components} $g^{ij} = \nabla u^i\cdot\nabla u^j = \sum_k w_{ik}w_{jk}$:
+
+\begin{align}
+    g^{\psi\psi} &= \nabla\psi\cdot\nabla\psi = w_{11}^2 + w_{12}^2
+    \quad\text{(Eq.(31))} \label{eq:guu_pp}\\[4pt]
+    g^{\psi\theta} &= \nabla\psi\cdot\nabla\theta = w_{11}w_{21} + w_{12}w_{22}
+    \quad\text{(Eq.(32))} \label{eq:guu_pt}\\[4pt]
+    g^{\psi\zeta} &= \nabla\psi\cdot\nabla\zeta = w_{11}w_{31} + w_{12}w_{32}
+    \quad\text{(Eq.(33))} \label{eq:guu_pz}\\[4pt]
+    g^{\theta\theta} &= \nabla\theta\cdot\nabla\theta = w_{21}^2 + w_{22}^2
+    \label{eq:guu_tt}\\[4pt]
+    g^{\theta\zeta} &= \nabla\theta\cdot\nabla\zeta = w_{21}w_{31} + w_{22}w_{32}
+    \label{eq:guu_tz}\\[4pt]
+    g^{\zeta\zeta} &= \nabla\zeta\cdot\nabla\zeta = w_{31}^2 + w_{32}^2 + w_{33}^2
+    \label{eq:guu_zz}
+\end{align}
+
+Note that $g^{\zeta\zeta}$ has three terms because $w_{33} = \nabla\zeta\cdot\hat{e}_3 = 1/(2\pi R) \neq 0$ (Eq.~(20)). The explicit $w_{ij}$ expressions from Eq.~(20) are:
+\begin{align}
+    w_{11} &= \frac{4\pi^2 rR}{J}\frac{\partial\eta}{\partial\theta}, \quad
+    w_{12} = -\frac{\pi R}{rJ}\frac{\partial r^2}{\partial\theta} \notag\\
+    w_{21} &= -\frac{4\pi^2 rR}{J}\frac{\partial\eta}{\partial\psi}, \quad
+    w_{22} = \frac{\pi R}{rJ}\frac{\partial r^2}{\partial\psi} \notag\\
+    w_{31} &= \frac{2\pi rR}{J}\!\left(\frac{\partial\eta}{\partial\psi}\frac{\partial\phi}{\partial\theta} - \frac{\partial\phi}{\partial\psi}\frac{\partial\eta}{\partial\theta}\right), \quad
+    w_{32} = \frac{R}{2rJ}\!\left(\frac{\partial\phi}{\partial\psi}\frac{\partial r^2}{\partial\theta} - \frac{\partial r^2}{\partial\psi}\frac{\partial\phi}{\partial\theta}\right), \quad
+    w_{33} = \frac{1}{2\pi R}
+    \label{eq:wij_explicit}
+\end{align}
+
+All of these are computed in DCON's \texttt{equil} module via the bicubic spline representation of $r^2(\psi,\theta)$, $\eta(\psi,\theta)$, $\phi(\psi,\theta)$.
+
+\medskip
+The \textbf{covariant} metric $g_{ij} = [g^{ij}]^{-1}$ needed for inner products is obtained via the cofactor formula. Using $\det(g^{ij}) = J^{-2}$:
+\begin{equation}
+    g_{ij} = J^2 \cdot \mathrm{Cof}(g^{ij})_{ij}
+\end{equation}
+
+Explicitly, for a symmetric $3\times3$ matrix with entries $(a,b,c,d,e,f) \equiv (g^{\psi\psi}, g^{\psi\theta}, g^{\psi\zeta}, g^{\theta\theta}, g^{\theta\zeta}, g^{\zeta\zeta})$:
+
+\noindent\textbf{Diagonal components} (minor of opposite $2\times2$ block):
+\begin{align}
+    g_{\psi\psi} &= J^2\!\left(g^{\theta\theta}g^{\zeta\zeta} - (g^{\theta\zeta})^2\right) \label{eq:gpp}\\
+    g_{\theta\theta} &= J^2\!\left(g^{\psi\psi}g^{\zeta\zeta} - (g^{\psi\zeta})^2\right) \label{eq:gtt}\\
+    g_{\zeta\zeta} &= J^2\!\left(g^{\psi\psi}g^{\theta\theta} - (g^{\psi\theta})^2\right) \label{eq:gzz}
+\end{align}
+
+\noindent\textbf{Off-diagonal components} (cofactor with sign):
+\begin{align}
+    g_{\psi\theta} &= J^2\!\left(g^{\psi\zeta}g^{\theta\zeta} - g^{\psi\theta}g^{\zeta\zeta}\right) \label{eq:gpt}\\
+    g_{\psi\zeta} &= J^2\!\left(g^{\psi\theta}g^{\theta\zeta} - g^{\psi\zeta}g^{\theta\theta}\right) \label{eq:gpz}\\
+    g_{\theta\zeta} &= J^2\!\left(g^{\psi\theta}g^{\psi\zeta} - g^{\psi\psi}g^{\theta\zeta}\right) \label{eq:gtz}
+\end{align}
+
+\begin{tcolorbox}[colback=gray!8!white, colframe=gray!60!black, title=\textbf{Metric computation pipeline}]
+\begin{enumerate}
+    \item Read $r^2(\psi,\theta)$, $\eta(\psi,\theta)$, $\phi(\psi,\theta)$, $J(\psi,\theta)$ from \texttt{equil} splines.
+    \item Compute partial derivatives $\partial r^2/\partial\psi$, $\partial\eta/\partial\theta$, etc.\ via spline derivatives.
+    \item Assemble $w_{ij}$ from \eqref{eq:wij_explicit}.
+    \item Compute all six $g^{ij}$ from \eqref{eq:guu_pp}--\eqref{eq:guu_zz}.
+    \item Compute all six $g_{ij}$ from \eqref{eq:gpp}--\eqref{eq:gtz} using $J^2\times\mathrm{cofactor}$.
+\end{enumerate}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=orange!5!white, colframe=orange!60!black, title=\textbf{Summary: Computing $\bxi_\perp$ in practice}]
+Given $\xi^\psi$, $\xi^\theta$, $\xi^\zeta$ (all in real space) and the metric from DCON \texttt{equil}:
+\begin{enumerate}
+    \item Compute $\bxi\cdot\mathbf{B}$ using \eqref{eq:xidotB_full}.
+    \item Compute $B = \sqrt{B^2}$ using \eqref{eq:B2}.
+    \item Compute the scalar parallel amplitude $\xi_\parallel = (\bxi\cdot\mathbf{B})/B$.
+    \item Subtract parallel part: $\xi^\theta_\perp = \xi^\theta - \xi_\parallel\chi'/(BJ)$, $\;\xi^\zeta_\perp = \xi^\zeta - q\xi_\parallel\chi'/(BJ)$.
+    \item Note: $\xi^\psi_\perp = \xi^\psi$ exactly, since $\hat{b}^\psi = 0$.
+    \item The magnitude is $|\bxi_\perp|^2 = g_{ij}\,\xi^i_\perp\,\xi^j_\perp$.
+\end{enumerate}
+\end{tcolorbox}
+
+%=======================================================
+\section{Step 6: Compute $\nabla\cdot\bxi_\perp$}
+
+\subsection{General decomposition}
+
+Starting from $\bxi = \bxi_\perp + \bxi_\parallel$ with $\bxi_\parallel = \xi_\parallel\,\hat{b}$:
+\begin{equation}
+    \nabla\cdot\bxi = \nabla\cdot\bxi_\perp + \nabla\cdot(\xi_\parallel\hat{b}) = 0
+\end{equation}
+
+Therefore:
+\begin{equation}
+    \nabla\cdot\bxi_\perp = -\nabla\cdot(\xi_\parallel\,\hat{b})
+    \label{eq:div_xiperp}
+\end{equation}
+
+\subsection{Expanding $\nabla\cdot(\xi_\parallel\hat{b})$}
+
+Using the product rule:
+\begin{equation}
+    \nabla\cdot(\xi_\parallel\,\hat{b}) = \hat{b}\cdot\nabla\xi_\parallel + \xi_\parallel\,\nabla\cdot\hat{b}
+\end{equation}
+
+Now we need $\nabla\cdot\hat{b}$. Since $\hat{b} = \mathbf{B}/B$ and $\nabla\cdot\mathbf{B} = 0$:
+\begin{equation}
+    \nabla\cdot\hat{b} = \nabla\cdot\!\left(\frac{\mathbf{B}}{B}\right)
+    = \frac{\nabla\cdot\mathbf{B}}{B} - \frac{\mathbf{B}\cdot\nabla B}{B^2}
+    = -\frac{\mathbf{B}\cdot\nabla B}{B^2} = -\hat{b}\cdot\nabla\ln B
+    \label{eq:divbhat}
+\end{equation}
+
+Therefore:
+\begin{equation}
+    \nabla\cdot(\xi_\parallel\hat{b}) = \hat{b}\cdot\nabla\xi_\parallel - \xi_\parallel\,\hat{b}\cdot\nabla\ln B
+    = \hat{b}\cdot\nabla\xi_\parallel + \xi_\parallel\,\frac{\nabla\cdot\hat{b}}{1}
+\end{equation}
+
+This can be written as a single derivative:
+\begin{equation}
+    \nabla\cdot(\xi_\parallel\hat{b}) = B\,\hat{b}\cdot\nabla\!\left(\frac{\xi_\parallel}{B}\right)
+    \label{eq:divbhat_compact}
+\end{equation}
+
+\textit{Proof:} $B\,\hat{b}\cdot\nabla(\xi_\parallel/B) = B[\hat{b}\cdot\nabla\xi_\parallel/B - \xi_\parallel\hat{b}\cdot\nabla B/B^2] = \hat{b}\cdot\nabla\xi_\parallel - \xi_\parallel\hat{b}\cdot\nabla\ln B = \nabla\cdot(\xi_\parallel\hat{b})$. $\square$
+
+Therefore:
+\begin{equation}
+    \boxed{\nabla\cdot\bxi_\perp = -B\,\hat{b}\cdot\nabla\!\left(\frac{\xi_\parallel}{B}\right)}
+    \label{eq:divxiperp_final}
+\end{equation}
+
+\subsection{Evaluation in flux coordinates}
+
+The field-line derivative operator is:
+\begin{equation}
+    \hat{b}\cdot\nabla = \frac{1}{B}\mathbf{B}\cdot\nabla
+    = \frac{1}{B}\!\left(B^\theta\frac{\partial}{\partial\theta} + B^\zeta\frac{\partial}{\partial\zeta}\right)
+    = \frac{\chi'}{BJ}\!\left(\frac{\partial}{\partial\theta} + q\frac{\partial}{\partial\zeta}\right)
+    \label{eq:bdotgrad}
+\end{equation}
+
+For a single toroidal mode $e^{-in\zeta}$, $\partial/\partial\zeta \to -in$:
+\begin{equation}
+    \hat{b}\cdot\nabla\!\left(\frac{\xi_\parallel}{B}\right)
+    = \frac{\chi'}{BJ}\!\left(\frac{\partial}{\partial\theta} - inq\right)\!\left(\frac{\xi_\parallel}{B}\right)
+\end{equation}
+
+Substituting into \eqref{eq:divxiperp_final}:
+\begin{equation}
+    \boxed{
+    \nabla\cdot\bxi_\perp
+    = -\frac{\chi'}{J}\!\left(\frac{\partial}{\partial\theta} - inq\right)\!\left(\frac{\xi_\parallel}{B}\right)
+    }
+    \label{eq:divxiperp_explicit}
+\end{equation}
+
+Note that the factor $B$ from \eqref{eq:divxiperp_final} cancels with the $1/B$ from $\hat{b}\cdot\nabla$, leaving only $\chi'/J$ as a prefactor. All quantities inside the derivative --- $\xi_\parallel(\psi,\theta)$ from \eqref{eq:xipar_def} and $B(\psi,\theta)$ from \eqref{eq:B2} --- are known real-space functions.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!60!black, title=\textbf{Summary: Computing $\nabla\cdot\bxi_\perp$}]
+\begin{enumerate}
+    \item From Step~5: $\xi_\parallel = (\bxi\cdot\mathbf{B})/B$ and $B = \sqrt{B^2}$ are known in real space.
+    \item Form the ratio $\xi_\parallel/B$ at each grid point $(\psi_i, \theta_j)$.
+    \item Compute the $\theta$-derivative numerically and apply the toroidal phase:
+    \begin{equation*}
+        \nabla\cdot\bxi_\perp = -\frac{\chi'}{J}\!\left(\frac{\partial}{\partial\theta} - inq\right)\!\frac{\xi_\parallel}{B}
+    \end{equation*}
+    \item This is nonzero in general --- even though $\nabla\cdot\boldsymbol{\xi}=0$, the perpendicular component $\bxi_\perp$ is compressible because $\nabla\cdot\hat{b}\neq 0$.
+\end{enumerate}
+\end{tcolorbox}
+
+%=======================================================
+\section{Step 7: Compute the Magnetic Curvature $\bm{\kappa} = \hat{b}\cdot\nabla\hat{b}$}
+
+\subsection{Definition and relation to MHD}
+
+The curvature vector is defined as:
+\begin{equation}
+    \bm{\kappa} \equiv \hat{b}\cdot\nabla\hat{b} = \frac{\mathbf{B}\cdot\nabla\mathbf{B}}{B^2} - \frac{\mathbf{B}(\mathbf{B}\cdot\nabla B)}{B^3}\cdot\frac{1}{B}
+    \label{eq:kappa_def}
+\end{equation}
+
+A more convenient equivalent form uses $\mathbf{B}\cdot\nabla\mathbf{B} = \nabla(B^2/2) - \mathbf{B}\times(\nabla\times\mathbf{B})$ and the equilibrium relation $\nabla\times\mathbf{B} = \mu_0\mathbf{j}$:
+\begin{equation}
+    \bm{\kappa} = \frac{1}{B^2}\!\left(\mathbf{B}\cdot\nabla\mathbf{B}\right) - \nabla_\perp\!\ln B
+    \quad\Longrightarrow\quad
+    \bm{\kappa} = -\nabla_\perp\!\ln B + \frac{\mu_0}{B^2}\mathbf{j}\times\hat{b}
+    \label{eq:kappa_equiv}
+\end{equation}
+
+For the purposes of numerical evaluation in DCON coordinates, the most direct route is through the Christoffel symbols.
+
+\subsection{Method 1: Via $\mathbf{B}\cdot\nabla\mathbf{B}$ in flux coordinates}
+
+Write $\mathbf{B} = B^i\,\mathbf{e}_i$ (contravariant, with covariant basis $\mathbf{e}_i = \partial\mathbf{x}/\partial u^i$). Then:
+\begin{equation}
+    \mathbf{B}\cdot\nabla\mathbf{B} = B^j\frac{\partial B^i}{\partial u^j}\mathbf{e}_i + B^j B^i\,\Gamma^k_{ij}\,\mathbf{e}_k
+    \label{eq:BdotgradB}
+\end{equation}
+
+where $\Gamma^k_{ij}$ are the Christoffel symbols of the second kind. In our coordinates $(u^1,u^2,u^3) = (\psi,\theta,\zeta)$ with only $B^\theta$ and $B^\zeta$ nonzero:
+\begin{align}
+    (B^j\partial_j)B^i &= B^\theta\frac{\partial B^i}{\partial\theta} + B^\zeta\frac{\partial B^i}{\partial\zeta}
+    = \frac{\chi'}{J}\frac{\partial B^i}{\partial\theta} - \frac{inq\chi'}{J}B^i
+    \label{eq:BdBcontra}
+\end{align}
+
+Since $B^\psi = 0$, $B^\theta = \chi'/J$, $B^\zeta = q\chi'/J$, and $J = J(\psi,\theta)$ only:
+\begin{align}
+    \frac{\partial B^\theta}{\partial\theta} &= -\frac{\chi' J'_\theta}{J^2}, \qquad
+    \frac{\partial B^\zeta}{\partial\theta} = -\frac{q\chi' J'_\theta}{J^2}
+    \label{eq:dBdth}
+\end{align}
+
+where $J'_\theta \equiv \partial J/\partial\theta$.
+
+\subsection{Method 2: Direct formula via pressure balance (recommended)}
+
+In ideal MHD equilibrium, the curvature is related to pressure and current by the force balance:
+\begin{equation}
+    \nabla p = \mathbf{j}\times\mathbf{B}
+    \quad\Longrightarrow\quad
+    \mu_0\nabla p = (\nabla\times\mathbf{B})\times\mathbf{B}
+    = \mathbf{B}\cdot\nabla\mathbf{B} - \nabla\!\left(\frac{B^2}{2}\right)
+\end{equation}
+
+Therefore:
+\begin{equation}
+    \mathbf{B}\cdot\nabla\mathbf{B} = \mu_0\nabla p + \nabla\!\left(\frac{B^2}{2}\right)
+    \label{eq:BdotgradB_equil}
+\end{equation}
+
+Projecting onto $\hat{b}$ to get the part parallel to $\mathbf{B}$ (which contributes nothing to $\bm{\kappa}$ since $\bm{\kappa}\perp\hat{b}$), and taking the perpendicular part:
+\begin{equation}
+    B^2\,\bm{\kappa} = \left(\mathbf{B}\cdot\nabla\mathbf{B}\right)_\perp
+    = \left[\mu_0\nabla p + \nabla\!\left(\frac{B^2}{2}\right)\right]_\perp
+    \label{eq:kappa_equil}
+\end{equation}
+
+This gives the curvature directly from equilibrium quantities without Christoffel symbols:
+\begin{equation}
+    \boxed{
+    \bm{\kappa} = \frac{1}{B^2}\left[\mu_0\nabla p + \nabla\!\left(\frac{B^2}{2}\right)\right]_\perp
+    }
+    \label{eq:kappa_pressure}
+\end{equation}
+
+\subsection{Evaluation in flux coordinates}
+
+\paragraph{Normal component $\kappa^\psi = \bm{\kappa}\cdot\nabla\psi$.}
+
+Project \eqref{eq:kappa_equil} onto $\nabla\psi$. Since $\mathbf{B}\cdot\nabla\psi = 0$, $\nabla\psi$ is already perpendicular to $\hat{b}$, so the perpendicular projection $[\cdots]_\perp$ does not affect this component:
+\begin{equation}
+    B^2\,\kappa^\psi = \left(\mu_0\nabla p + \nabla\frac{B^2}{2}\right)\cdot\nabla\psi
+    = \mu_0 p'\,g_{\psi\psi} + \frac{1}{2}\frac{\partial B^2}{\partial\psi}\,g_{\psi\psi} + \frac{1}{2}\frac{\partial B^2}{\partial\theta}\,g_{\psi\theta}
+\end{equation}
+
+\begin{equation}
+    \boxed{\kappa^\psi = \frac{1}{B^2}\!\left[
+    \mu_0 p'\,g_{\psi\psi}
+    + \frac{1}{2}\frac{\partial B^2}{\partial\psi}\,g_{\psi\psi}
+    + \frac{1}{2}\frac{\partial B^2}{\partial\theta}\,g_{\psi\theta}
+    \right]}
+    \label{eq:kappa_psi}
+\end{equation}
+
+This result is exact because $\nabla\psi\perp\hat{b}$.
+
+\paragraph{Geodesic component $\kappa^\theta$ and toroidal component $\kappa^\zeta$: a caution.}
+
+Unlike $\nabla\psi$, the vectors $\nabla\theta$ and $\nabla\zeta$ are \textbf{not} perpendicular to $\hat{b}$ in general:
+\begin{equation}
+    \hat{b}\cdot\nabla\theta = \frac{\mathbf{B}\cdot\nabla\theta}{B} = \frac{\chi'}{BJ}(g_{\theta\theta} + q\,g_{\theta\zeta}) \neq 0
+\end{equation}
+
+Therefore, projecting $[\mu_0\nabla p + \nabla(B^2/2)]_\perp$ onto $\nabla\theta$ requires an explicit subtraction of the $\hat{b}$-parallel part. Define:
+\begin{equation}
+    \mathbf{V} \equiv \mu_0\nabla p + \nabla\!\left(\frac{B^2}{2}\right), \qquad V_\parallel \equiv \frac{\mathbf{V}\cdot\mathbf{B}}{B^2}
+\end{equation}
+
+Then $\mathbf{V}_\perp = \mathbf{V} - V_\parallel\mathbf{B}$, and:
+\begin{align}
+    \mathbf{V}\cdot\mathbf{B} &= \mu_0 p'\underbrace{(\nabla\psi\cdot\mathbf{B})}_{=0} + \frac{1}{2}\frac{\partial B^2}{\partial\psi}\underbrace{(\nabla\psi\cdot\mathbf{B})}_{=0} + \frac{1}{2}\frac{\partial B^2}{\partial\theta}(\nabla\theta\cdot\mathbf{B}) \notag\\
+    &= \frac{1}{2}\frac{\partial B^2}{\partial\theta}\cdot\frac{\chi'}{J}(g_{\theta\theta}+qg_{\theta\zeta})
+    \label{eq:VdotB}
+\end{align}
+
+(using $\nabla\psi\cdot\mathbf{B}=0$ and $\nabla\theta\cdot\mathbf{B} = g_{\theta i}B^i = (\chi'/J)(g_{\theta\theta}+qg_{\theta\zeta})$). Therefore:
+\begin{align}
+    \kappa^\theta &= \frac{\mathbf{V}_\perp\cdot\nabla\theta}{B^2} = \frac{\mathbf{V}\cdot\nabla\theta - V_\parallel(\mathbf{B}\cdot\nabla\theta)}{B^2} \notag\\[4pt]
+    &= \frac{1}{B^2}\!\left[\mu_0 p'\,g_{\psi\theta} + \frac{1}{2}\frac{\partial B^2}{\partial\psi}g_{\psi\theta} + \frac{1}{2}\frac{\partial B^2}{\partial\theta}g_{\theta\theta}\right]
+    - \frac{V_\parallel}{B^2}\cdot\frac{\chi'}{J}(g_{\theta\theta}+qg_{\theta\zeta})
+    \label{eq:kappa_theta_correct}
+\end{align}
+
+where the correction term is:
+\begin{equation}
+    \frac{V_\parallel}{B^2}\cdot\frac{\chi'}{J}(g_{\theta\theta}+qg_{\theta\zeta})
+    = \frac{1}{2B^4}\frac{\partial B^2}{\partial\theta}\cdot\left(\frac{\chi'}{J}\right)^2(g_{\theta\theta}+qg_{\theta\zeta})^2
+    \label{eq:kappa_theta_correction}
+\end{equation}
+
+So the corrected formulas are:
+\begin{equation}
+    \boxed{\kappa^\theta = \frac{1}{B^2}\!\left[\mu_0 p'\,g_{\psi\theta} + \frac{1}{2}\frac{\partial B^2}{\partial\psi}g_{\psi\theta} + \frac{1}{2}\frac{\partial B^2}{\partial\theta}g_{\theta\theta}\right]
+    - \frac{1}{2B^4}\frac{\partial B^2}{\partial\theta}\!\left(\frac{\chi'}{J}\right)^2\!(g_{\theta\theta}+qg_{\theta\zeta})^2}
+    \label{eq:kappa_theta}
+\end{equation}
+
+Similarly for $\kappa^\zeta$ (using $\nabla\zeta\cdot\mathbf{B} = (\chi'/J)(g_{\theta\zeta}+qg_{\zeta\zeta})$):
+\begin{equation}
+    \boxed{\kappa^\zeta = \frac{1}{B^2}\!\left[\mu_0 p'\,g_{\psi\zeta} + \frac{1}{2}\frac{\partial B^2}{\partial\psi}g_{\psi\zeta} + \frac{1}{2}\frac{\partial B^2}{\partial\theta}g_{\theta\zeta}\right]
+    - \frac{1}{2B^4}\frac{\partial B^2}{\partial\theta}\!\left(\frac{\chi'}{J}\right)^2\!(g_{\theta\theta}+qg_{\theta\zeta})(g_{\theta\zeta}+qg_{\zeta\zeta})}
+    \label{eq:kappa_zeta}
+\end{equation}
+
+\paragraph{Verification: $\bm{\kappa}\cdot\mathbf{B} = 0$.}
+
+As a consistency check, $\bm{\kappa}\perp\mathbf{B}$ must hold. In contravariant form:
+\begin{equation}
+    \bm{\kappa}\cdot\mathbf{B} = g_{ij}\,\kappa^i B^j
+    = (g_{\theta i}\kappa^i)B^\theta + (g_{\zeta i}\kappa^i)B^\zeta = 0
+    \label{eq:kappa_perp_check}
+\end{equation}
+
+This can be verified by direct substitution and provides a numerical consistency check.
+
+\subsection{Derivative of $B^2$ in flux coordinates}
+
+The quantity $B^2$ in flux coordinates is (from \eqref{eq:B2}):
+\begin{equation}
+    B^2(\psi,\theta) = \left(\frac{\chi'}{J}\right)^2\!\left(g_{\theta\theta} + 2q\,g_{\theta\zeta} + q^2\,g_{\zeta\zeta}\right)
+    \label{eq:B2_explicit}
+\end{equation}
+
+Its $\psi$- and $\theta$-derivatives needed for $\bm{\kappa}$ are:
+\begin{align}
+    \frac{\partial B^2}{\partial\psi} &= 2\left(\frac{\chi'}{J}\right)\!\left(\frac{\chi''J - \chi'J'}{J^2}\right)(g_{\theta\theta}+2qg_{\theta\zeta}+q^2g_{\zeta\zeta}) \notag\\
+    &\quad + \left(\frac{\chi'}{J}\right)^2\!\left(\frac{\partial g_{\theta\theta}}{\partial\psi} + 2q'\,g_{\theta\zeta} + 2q\frac{\partial g_{\theta\zeta}}{\partial\psi} + 2qq'\,g_{\zeta\zeta} + q^2\frac{\partial g_{\zeta\zeta}}{\partial\psi}\right)
+    \label{eq:dB2dpsi}\\[6pt]
+    \frac{\partial B^2}{\partial\theta} &= \left(\frac{\chi'}{J}\right)^2\!\left(-\frac{2J'_\theta}{J}\right)(g_{\theta\theta}+2qg_{\theta\zeta}+q^2g_{\zeta\zeta})
+    + \left(\frac{\chi'}{J}\right)^2\!\left(\frac{\partial g_{\theta\theta}}{\partial\theta} + 2q\frac{\partial g_{\theta\zeta}}{\partial\theta} + q^2\frac{\partial g_{\zeta\zeta}}{\partial\theta}\right)
+    \label{eq:dB2dtheta}
+\end{align}
+
+All metric derivatives are available from DCON's \texttt{equil} bicubic splines.
+
+\begin{tcolorbox}[colback=red!5!white, colframe=red!60!black, title=\textbf{Summary: Computing $\bm{\kappa}$ in practice (Method 7a)}]
+Given the equilibrium from DCON \texttt{equil} (metric tensors $g_{ij}$, $J$, $q$, $p'$, $\chi'$):
+\begin{enumerate}
+    \item Compute $B^2(\psi,\theta)$ via \eqref{eq:B2_explicit} and its derivatives via \eqref{eq:dB2dpsi}--\eqref{eq:dB2dtheta}.
+    \item Compute $\kappa^\psi$ exactly via \eqref{eq:kappa_psi} (no correction needed since $\nabla\psi\perp\hat{b}$).
+    \item Compute the parallel content $\mathbf{V}\cdot\mathbf{B}$ via \eqref{eq:VdotB}, then apply the correction to get $\kappa^\theta$ and $\kappa^\zeta$ from \eqref{eq:kappa_theta}--\eqref{eq:kappa_zeta}.
+    \item Check $\bm{\kappa}\cdot\mathbf{B} = g_{ij}\kappa^i B^j = 0$ numerically.
+\end{enumerate}
+\end{tcolorbox}
+
+%=======================================================
+\section{Step 7b: Direct Computation of $\bxi_\perp\cdot\bm{\kappa}$ (Alternative, Simpler Method)}
+
+\subsection{Motivation}
+
+The ultimate goal in Step~8 is the inner product $\bxi_\perp\cdot\bm{\kappa}$, not $\bm{\kappa}$ itself. Since both $\bxi_\perp$ and $\bm{\kappa}$ lie in the plane perpendicular to $\hat{b}$, we can bypass the individual components of $\bm{\kappa}$ entirely and compute the inner product directly from the equilibrium force balance. This avoids the perpendicular projection correction of Step~7a.
+
+\subsection{Derivation}
+
+From the MHD equilibrium force balance:
+\begin{equation}
+    B^2\bm{\kappa} = \left[\mu_0\nabla p + \nabla\!\left(\frac{B^2}{2}\right)\right]_\perp
+\end{equation}
+
+Taking the inner product with $\bxi_\perp$, and using $\bxi_\perp\perp\hat{b}$:
+\begin{align}
+    B^2\,(\bxi_\perp\cdot\bm{\kappa})
+    &= \bxi_\perp\cdot\left[\mu_0\nabla p + \nabla\!\left(\frac{B^2}{2}\right)\right]_\perp \notag\\
+    &= \bxi_\perp\cdot\left[\mu_0\nabla p + \nabla\!\left(\frac{B^2}{2}\right)\right]
+    - \underbrace{(\bxi_\perp\cdot\hat{b})}_{=0}\left[\hat{b}\cdot\left(\mu_0\nabla p + \nabla\frac{B^2}{2}\right)\right] \notag\\
+    &= \bxi_\perp\cdot\left[\mu_0\nabla p + \nabla\!\left(\frac{B^2}{2}\right)\right]
+\end{align}
+
+The $[\cdots]_\perp$ projection is free because $\bxi_\perp\perp\hat{b}$ kills the parallel part automatically. Therefore:
+\begin{equation}
+    \boxed{
+    \bxi_\perp\cdot\bm{\kappa} = \frac{1}{B^2}\bxi_\perp\cdot\!\left[\mu_0\nabla p + \nabla\!\left(\frac{B^2}{2}\right)\right]
+    }
+    \label{eq:xiperpkappa_direct}
+\end{equation}
+
+\subsection{Evaluation in flux coordinates}
+
+Expanding the right-hand side. Using $\nabla p = p'\nabla\psi$ and the chain rule for $\nabla(B^2/2)$:
+\begin{equation}
+    \mu_0\nabla p + \nabla\!\left(\frac{B^2}{2}\right)
+    = \mu_0 p'\nabla\psi + \frac{1}{2}\frac{\partial B^2}{\partial\psi}\nabla\psi + \frac{1}{2}\frac{\partial B^2}{\partial\theta}\nabla\theta
+    \label{eq:V_expand}
+\end{equation}
+
+(the $\nabla\zeta$ component vanishes because $B^2 = B^2(\psi,\theta)$ is independent of $\zeta$). Taking the inner product with $\bxi_\perp$:
+\begin{align}
+    \bxi_\perp\cdot\nabla\psi &= g_{ij}\,\xi^i_\perp\,(\nabla\psi)^j
+    = g_{\psi\psi}\xi^\psi + g_{\psi\theta}\xi^\theta_\perp + g_{\psi\zeta}\xi^\zeta_\perp
+    \label{eq:xiperp_dpsi}\\[4pt]
+    \bxi_\perp\cdot\nabla\theta &= g_{ij}\,\xi^i_\perp\,(\nabla\theta)^j
+    = g_{\psi\theta}\xi^\psi + g_{\theta\theta}\xi^\theta_\perp + g_{\theta\zeta}\xi^\zeta_\perp
+    \label{eq:xiperp_dtheta}
+\end{align}
+
+Therefore:
+\begin{equation}
+    \boxed{
+    \bxi_\perp\cdot\bm{\kappa} = \frac{1}{B^2}\!\left[
+    \left(\mu_0 p' + \frac{1}{2}\frac{\partial B^2}{\partial\psi}\right)
+    \!\left(g_{\psi\psi}\xi^\psi + g_{\psi\theta}\xi^\theta_\perp + g_{\psi\zeta}\xi^\zeta_\perp\right)
+    + \frac{1}{2}\frac{\partial B^2}{\partial\theta}
+    \!\left(g_{\psi\theta}\xi^\psi + g_{\theta\theta}\xi^\theta_\perp + g_{\theta\zeta}\xi^\zeta_\perp\right)
+    \right]
+    }
+    \label{eq:xiperpkappa_flux}
+\end{equation}
+
+\subsection{Comparison with Method 7a}
+
+\begin{center}
+\begin{tabular}{lcc}
+\hline
+ & \textbf{Method 7a} & \textbf{Method 7b} \\
+\hline
+Compute $\bm{\kappa}$ components separately & Yes & No \\
+Perpendicular projection correction needed & Yes (for $\kappa^\theta$, $\kappa^\zeta$) & No (automatic) \\
+$\bm{\kappa}$ available for other uses & Yes & No \\
+Number of steps to get $\bxi_\perp\cdot\bm{\kappa}$ & More & Fewer \\
+Risk of projection error & Higher & None \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{tcolorbox}[colback=red!3!white, colframe=red!40!black, title=\textbf{Summary: Computing $\bxi_\perp\cdot\bm{\kappa}$ directly (Method 7b)}]
+\begin{enumerate}
+    \item Compute $\partial B^2/\partial\psi$ and $\partial B^2/\partial\theta$ from \eqref{eq:dB2dpsi}--\eqref{eq:dB2dtheta}.
+    \item Compute inner products with $\bxi_\perp$ using \eqref{eq:xiperp_dpsi}--\eqref{eq:xiperp_dtheta}.
+    \item Apply \eqref{eq:xiperpkappa_flux} directly. No $\bm{\kappa}$ components needed.
+\end{enumerate}
+If $\bm{\kappa}$ itself is not needed for other purposes, \textbf{Method 7b is recommended} as it is simpler and avoids the perpendicular projection issue in Method 7a.
+\end{tcolorbox}
+
+%=======================================================
+\section{Step 8: Compute $\bxi_\perp\cdot\bm{\kappa}$}
+
+\subsection{Two available methods}
+
+\textbf{Method 7a} (via $\bm{\kappa}$ components): Use the corrected $\kappa^\psi$, $\kappa^\theta$, $\kappa^\zeta$ from Step~7a and compute:
+\begin{align}
+    \bxi_\perp\cdot\bm{\kappa} \;=\;&
+      g_{\psi\psi}\,\xi^\psi\,\kappa^\psi
+    + g_{\psi\theta}\!\left(\xi^\psi\,\kappa^\theta + \xi^\theta_\perp\,\kappa^\psi\right)
+    + g_{\psi\zeta}\!\left(\xi^\psi\,\kappa^\zeta + \xi^\zeta_\perp\,\kappa^\psi\right) \notag\\
+    &+ g_{\theta\theta}\,\xi^\theta_\perp\,\kappa^\theta
+    + g_{\theta\zeta}\!\left(\xi^\theta_\perp\,\kappa^\zeta + \xi^\zeta_\perp\,\kappa^\theta\right)
+    + g_{\zeta\zeta}\,\xi^\zeta_\perp\,\kappa^\zeta
+    \label{eq:xiperpkappa_full}
+\end{align}
+
+\textbf{Method 7b} (direct, recommended): Use \eqref{eq:xiperpkappa_flux} from Step~7b directly, without computing $\bm{\kappa}$ components:
+\begin{equation}
+    \bxi_\perp\cdot\bm{\kappa} = \frac{1}{B^2}\!\left[
+    \left(\mu_0 p' + \frac{1}{2}\frac{\partial B^2}{\partial\psi}\right)
+    (g_{\psi\psi}\xi^\psi + g_{\psi\theta}\xi^\theta_\perp + g_{\psi\zeta}\xi^\zeta_\perp)
+    + \frac{1}{2}\frac{\partial B^2}{\partial\theta}
+    (g_{\psi\theta}\xi^\psi + g_{\theta\theta}\xi^\theta_\perp + g_{\theta\zeta}\xi^\zeta_\perp)
+    \right]
+    \tag{\ref{eq:xiperpkappa_flux}}
+\end{equation}
+
+\subsection{Consistency check: $\bm{\kappa}\perp\hat{b}$}
+
+Since $\bm{\kappa}\perp\hat{b}$ by construction, and $\bxi_\parallel = \xi_\parallel\hat{b}$:
+\begin{equation}
+    \bxi\cdot\bm{\kappa} = \bxi_\perp\cdot\bm{\kappa} + \underbrace{\bxi_\parallel\cdot\bm{\kappa}}_{=\,\xi_\parallel(\hat{b}\cdot\bm{\kappa})\,=\,0} = \bxi_\perp\cdot\bm{\kappa}
+    \label{eq:kappa_perp_xi}
+\end{equation}
+
+Therefore $\bxi\cdot\bm{\kappa}$ and $\bxi_\perp\cdot\bm{\kappa}$ are identical, and computing the former (using all three $\xi^i$ without subtracting the parallel part) gives the same result as a numerical cross-check.
+
+%=======================================================
+\section{Step 9: Assemble $F$ and Compute $\delta W_s$}
+
+\subsection{The integrand $F$}
+
+Having computed $\nabla\cdot\bxi_\perp$ (Step~6) and $\bxi_\perp\cdot\bm{\kappa}$ (Step~8), the key quantity is:
+\begin{equation}
+    \boxed{
+    F(\psi,\theta) \equiv \nabla\cdot\bxi_\perp + 2\,\bxi_\perp\cdot\bm{\kappa}
+    }
+    \label{eq:F_def}
+\end{equation}
+
+Substituting the explicit results:
+\begin{equation}
+    F = -\frac{\chi'}{J}\!\left(\frac{\partial}{\partial\theta} - inq\right)\!\frac{\xi_\parallel}{B}
+    + \frac{2}{B^2}\!\left(\mu_0 p' + \frac{1}{2}\frac{\partial B^2}{\partial\psi}\right)\bxi_\perp\cdot\bnabla\psi
+    + \frac{1}{B^2}\frac{\partial B^2}{\partial\theta}\,\bxi_\perp\cdot\bnabla\theta
+    \label{eq:F_explicit}
+\end{equation}
+
+where we used \eqref{eq:kappa_psi}--\eqref{eq:kappa_zeta} to write $\bxi_\perp\cdot\bm{\kappa}$ in terms of the pressure gradient and $B^2$ derivatives. All quantities are functions of $(\psi,\theta)$ only (after extracting the $e^{-in\zeta}$ factor).
+
+\subsection{Physical interpretation of $F$}
+
+$F$ is the MHD ``compressibility + curvature'' term that appears in the pressure-driven contribution to $\delta W$:
+\begin{itemize}
+    \item $\nabla\cdot\bxi_\perp$: how much the perpendicular displacement compresses the plasma. Even though $\nabla\cdot\boldsymbol{\xi} = 0$ by incompressibility, $\nabla\cdot\bxi_\perp \neq 0$ because the field lines themselves are curved ($\nabla\cdot\hat{b} \neq 0$).
+    \item $2\bxi_\perp\cdot\bm{\kappa}$: the geometric effect of field-line curvature on the displaced plasma element.
+\end{itemize}
+
+\subsection{The surface energy $\delta W_s$}
+
+The surface energy integral is:
+\begin{equation}
+    \delta W_s = -\frac{1}{2}\int_0^1 d\theta \int_0^1 d\zeta\;
+    J\,\xi^{\psi*}\frac{B^2}{\mu_0}\,F
+    \label{eq:dWs}
+\end{equation}
+
+Performing the $\zeta$-integral: since $\xi^{\psi*} \propto e^{+in\zeta}$ and $F \propto e^{-in\zeta}$ (single toroidal mode $n$), the $\zeta$-integral gives a factor of 1 (the cross-term survives, oscillating terms vanish). Denoting the $\zeta$-integrated form as an integral over $\theta$ only:
+\begin{equation}
+    \boxed{
+    \delta W_s = -\frac{1}{2}\int_0^1 d\theta\;
+    J(\psi,\theta)\;\xi^{\psi*}(\psi,\theta)\;\frac{B^2(\psi,\theta)}{\mu_0}\;F(\psi,\theta)
+    }
+    \label{eq:dWs_theta}
+\end{equation}
+
+evaluated at the plasma boundary $\psi = \psi_{\rm edge}$.
+
+\subsection{Complete computational sequence}
+
+\begin{tcolorbox}[colback=blue!10!white, colframe=blue!70!black, title=\textbf{Full pipeline: from $\Xi_\psi$ to $\delta W_s$}, breakable]
+\begin{enumerate}
+    \item[\textbf{S1.}] $\Xi_s = -A^{-1}(B\Xi'_\psi + C\Xi_\psi)$ \hfill$\to$ Fourier coefficients of $\xi^s$
+    \item[\textbf{S2.}] Inverse FT: $\xi^\psi = \sum_m [\Xi_\psi]_m e^{im\theta}$, $\;\xi^s = \sum_m [\Xi_s]_m e^{im\theta}$ \hfill$\to$ real space
+    \item[\textbf{S3.}] Solve ODE for $\xi^\theta$; then $\xi^\zeta = q\xi^\theta - \xi^s/\chi'$ \hfill$\to$ all 3 components
+    \item[\textbf{S4.}] Verify $\nabla\cdot\boldsymbol{\xi} = 0$ \hfill$\to$ consistency check
+    \item[\textbf{S5.}] $\xi_\parallel = (\boldsymbol{\xi}\cdot\mathbf{B})/B$; \quad $\xi^i_\perp = \xi^i - \xi_\parallel\hat{b}^i$ \hfill$\to$ perpendicular components
+    \item[\textbf{S6.}] $\nabla\cdot\bxi_\perp = -\dfrac{\chi'}{J}\!\left(\dfrac{\partial}{\partial\theta}-inq\right)\!\dfrac{\xi_\parallel}{B}$ \hfill$\to$ compressibility
+    \item[\textbf{S7.}] $\kappa^i = \dfrac{1}{B^2}\!\left(\mu_0 p'\,g_{\psi i} + \dfrac{1}{2}\dfrac{\partial B^2}{\partial\psi}g_{\psi i} + \dfrac{1}{2}\dfrac{\partial B^2}{\partial\theta}g_{\theta i}\right)$ \hfill$\to$ curvature
+    \item[\textbf{S8.}] $\bxi_\perp\cdot\bm{\kappa} = g_{ij}\,\xi^i_\perp\,\kappa^j$ \hfill$\to$ curvature drive
+    \item[\textbf{S9.}] $F = \nabla\cdot\bxi_\perp + 2\bxi_\perp\cdot\bm{\kappa}$ \hfill$\to$ integrand
+    \item[\textbf{S10.}] $\delta W_s = -\dfrac{1}{2}\displaystyle\int_0^1 d\theta\;J\,\xi^{\psi*}\,\dfrac{B^2}{\mu_0}\,F$ \hfill$\to$ \textbf{final result}
+\end{enumerate}
+\end{tcolorbox}
+
+\section{Remarks}
+
+\subsection*{Why $J$ being $\zeta$-independent is crucial}
+
+If $J$ depended on $\zeta$, the term $\partial_\zeta(J\xi^\zeta)$ in the divergence condition could not be simplified to $-inJ\xi^\zeta$; it would instead couple different toroidal modes $n$, making the problem far more complex. Since $J = J(\psi,\theta)$ only, the toroidal mode number $n$ remains a good quantum number, and the problem reduces to a one-dimensional ODE in $\theta$ for each fixed $\psi$ and $n$.
+
+\subsection*{No Fourier decomposition of $J$ is needed}
+
+Since the ODE \eqref{eq:ODE} is solved by direct $\theta$-integration in real space, $J(\psi,\theta)$ enters purely as a pointwise multiplicative factor inside the integrand. The bicubic spline representation of $J$ from DCON's \texttt{equil} module can be used directly to evaluate $S(\psi,\theta)$ and perform the numerical $\theta$-integral. This avoids the truncation errors associated with a finite Fourier expansion of $J$.
+
+\subsection*{Rational surfaces and the periodicity condition}
+
+When $e^{inq} = 1$, i.e., $q(\psi) = k/n$ for integer $k$ (rational surface), the denominator $1 - e^{inq}$ in the periodicity constant vanishes. This is not a numerical accident: it signals that the ODE has no periodic solution unless the source satisfies the solvability condition $I_1(\psi) = \int_0^1 e^{-inq\theta}S\,d\theta = 0$. This is precisely the Newcomb resonance condition, and its handling (e.g., via small resistivity or a Frobenius expansion) is the core of DCON's treatment of ideal resonant surfaces.
+
+\subsection*{$\xi^\zeta$ requires no additional equation}
+
+A key point in the derivation is that $\xi^\zeta$ is not independently constrained by $\nabla\cdot\bxi = 0$ once $\xi^\theta$ is found. The two equations --- $\nabla\cdot\bxi=0$ and the definition of $\xi^s$ --- are used together to decouple the system: the divergence condition determines $\xi^\theta$, and the definition of $\xi^s$ then gives $\xi^\zeta$ as a simple algebraic consequence.
+
+\end{document}
